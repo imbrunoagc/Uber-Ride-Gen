@@ -7,6 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+faker = "^28.4.1"
+pandas = "^2.2.2"
+streamlit = "^1.38.0"
+sqlalchemy = "^2.0.34"
 
 
 [build-system]
