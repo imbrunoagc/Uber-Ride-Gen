@@ -4,7 +4,7 @@
 # local
 .venv
 *.json
-
+*.csv
 
 
 ### Python ###
