@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "uber-ride-gen"
+version = "0.1.0"
+description = ""
+authors = ["Bruno Augusto <120321738+imbrunoagc@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
