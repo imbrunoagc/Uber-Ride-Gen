@@ -4,6 +4,8 @@ import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+import streamlit as st
+
 dir_current = os.path.dirname(os.path.abspath(__file__))
 
 sys.path.append(os.path.join(dir_current, "..", "gen"))
@@ -16,6 +18,7 @@ from declare_table import Base, Viagem, LatLongViagem
 db_path = os.path.join(dir_current, "..", "..", "data", "db_sqllite", "uber_rides.db")
 db_uri = f'sqlite:///{db_path}'
 
+@st.cache_data()
 def create_tables_fake(
     numero_de_viagens:int=1000,
     db_uri:str=db_uri
