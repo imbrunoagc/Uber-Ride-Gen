@@ -17,12 +17,16 @@ def gerar_viagem():
         "preco_viagem": round(random.uniform(5, 100), 2)
     }
 
+# Limites geográficos aproximados para o Brasil
+LAT_MIN, LAT_MAX = -33.75, 5.25
+LONG_MIN, LONG_MAX = -73.99, -34.79
+
 # Função para gerar latitudes e longitudes associadas às viagens
 def gerar_latlong(id_viagem):
-    origem_lat = round(random.uniform(-90, 90), 6)
-    origem_long = round(random.uniform(-180, 180), 6)
-    destino_lat = round(random.uniform(-90, 90), 6)
-    destino_long = round(random.uniform(-180, 180), 6)
+    origem_lat = round(random.uniform(LAT_MIN, LAT_MAX), 6)
+    origem_long = round(random.uniform(LONG_MIN, LONG_MAX), 6)
+    destino_lat = round(random.uniform(LAT_MIN, LAT_MAX), 6)
+    destino_long = round(random.uniform(LONG_MIN, LONG_MAX), 6)
 
     # Retornando 2 linhas, uma para origem e outra para destino
     return [
