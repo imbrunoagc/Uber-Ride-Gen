@@ -1,12 +1,14 @@
 from faker import Faker
 import random
 import pandas as pd
+from typing import Dict, List, Union, Any
+from datetime import datetime
 
 # Inicializando o faker
-fake = Faker()
+fake = Faker(['pt_BR'])
 
 # Função para gerar viagens
-def gerar_viagem():
+def gerar_viagem() -> Dict[str, Any]:
     id_viagem = fake.uuid4()
     return {
         "id_viagem": id_viagem,
@@ -22,7 +24,7 @@ LAT_MIN, LAT_MAX = -33.75, 5.25
 LONG_MIN, LONG_MAX = -73.99, -34.79
 
 # Função para gerar latitudes e longitudes associadas às viagens
-def gerar_latlong(id_viagem):
+def gerar_latlong(id_viagem: str) -> List[Dict[str, Union[str, float]]]:
     origem_lat = round(random.uniform(LAT_MIN, LAT_MAX), 6)
     origem_long = round(random.uniform(LONG_MIN, LONG_MAX), 6)
     destino_lat = round(random.uniform(LAT_MIN, LAT_MAX), 6)
@@ -42,6 +44,7 @@ if __name__ == "__main__":
     # Gerando a tabela de viagens
     viagens = [gerar_viagem() for _ in range(numero_de_viagens)]
     df_viagens = pd.DataFrame(viagens)
+    df_viagens.to_excel("data\\db_excel\\viagens.xlsx", index=False)
 
     # Gerando a tabela de latitude/longitude
     latlong_viagens = []
@@ -49,9 +52,11 @@ if __name__ == "__main__":
         latlong_viagens.extend(gerar_latlong(viagem['id_viagem']))
 
     df_latlong_viagens = pd.DataFrame(latlong_viagens)
+    df_latlong_viagens.to_excel("data\\db_excel\\latlong_viagens.xlsx", index=False)
 
     # Exibindo as primeiras linhas de ambas as tabelas
     print("Tabela de Viagens:")
     print(df_viagens.head())
     print("\nTabela de Latitude/Longitude:")
-    print(df_latlong_viagens.head())
+    print(df_latlong_viagens.shape)
+    print(df_latlong_viagens.columns)
