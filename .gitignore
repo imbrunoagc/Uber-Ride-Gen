@@ -6,6 +6,7 @@
 *.json
 *.csv
 
+__pycache__
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
