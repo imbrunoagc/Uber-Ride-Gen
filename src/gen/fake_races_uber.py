@@ -4,8 +4,10 @@ import pandas as pd
 from typing import Dict, List, Union, Any
 from datetime import datetime
 
+from parameters import positive_feedbacks, neutral_feedbacks, negative_feedbacks
+
 # Inicializando o faker
-fake = Faker(['pt_BR'])
+fake = Faker('pt_BR')
 
 # Função para gerar viagens
 def gerar_viagem() -> Dict[str, Any]:
@@ -36,6 +38,22 @@ def gerar_latlong(id_viagem: str) -> List[Dict[str, Union[str, float]]]:
         {"id_viagem": id_viagem, "lat": destino_lat, "long": destino_long, "tipo": "destino"}
     ]
 
+
+def gerar_feedback(id_viagem: str):
+    rating = round(random.uniform(1, 5), 1)  # Nota de 1 a 5, com uma casa decimal
+    
+    # Seleciona feedback com base na avaliação
+    if rating >= 4:
+        feedback = random.choice(positive_feedbacks)
+    elif rating == 3:
+        feedback = random.choice(neutral_feedbacks)
+    else:
+        feedback = random.choice(negative_feedbacks)
+        
+    return [
+        {"id_viagem": id_viagem, "rating": rating, "feedback": feedback}
+    ]
+    
 if __name__ == "__main__":
     
     # Gerando as tabelas
@@ -53,6 +71,13 @@ if __name__ == "__main__":
 
     df_latlong_viagens = pd.DataFrame(latlong_viagens)
     df_latlong_viagens.to_excel("data\\db_excel\\latlong_viagens.xlsx", index=False)
+
+    classificacao = []
+    for viagem in viagens:
+        classificacao.extend(gerar_feedback(viagem['id_viagem']))
+        
+    df_classificacao_estrelas = pd.DataFrame(classificacao)
+    df_classificacao_estrelas.to_excel("data\\db_excel\\classificacao.xlsx", index=False)
 
     # Exibindo as primeiras linhas de ambas as tabelas
     print("Tabela de Viagens:")
