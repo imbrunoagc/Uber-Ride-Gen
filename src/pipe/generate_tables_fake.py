@@ -11,8 +11,8 @@ dir_current = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(dir_current, "..", "gen"))
 sys.path.append(os.path.join(dir_current, "..", "database"))
 
-from fake_races_uber import gerar_viagem, gerar_latlong
-from declare_table import Base, Viagem, LatLongViagem
+from fake_races_uber import gerar_viagem, gerar_latlong, gerar_feedback
+from declare_table import Base, Viagem, LatLongViagem, FeedbackViagem
 
 # Caminho do diretório de dados
 db_path = os.path.join(dir_current, "..", "..", "data", "db_sqllite", "uber_rides.db")
@@ -38,6 +38,12 @@ def create_tables_fake(
 
     df_latlong_viagens = pd.DataFrame(latlong_viagens)
 
+    
+    classificacao = []
+    for viagem in viagens:
+        classificacao.extend(gerar_feedback(viagem['id_viagem']))
+        
+    df_feedback = pd.DataFrame(classificacao)
 
     # Criando o banco de dados SQLite em memória (ou em arquivo se preferir)
     engine = create_engine(db_uri, echo=False)
@@ -80,6 +86,20 @@ def create_tables_fake(
             print(f"error {e}")
     print(f"latlong carregado com sucesso, total de linhas: {index+1}")
 
+
+
+    for index, row in df_feedback.iterrows():
+        feedback = FeedbackViagem(
+            id_viagem=row['id_viagem'],
+            classificacao=row['rating'],
+            feedback=row['feedback']
+        )
+        try:
+            session.add(feedback)
+        except Exception as e:
+            print(f"error {e}")
+    print(f"Feedback carregado com sucesso, total de linhas: {index+1}")
+    
     # Commit para salvar os dados no banco de dados
     session.commit()
 

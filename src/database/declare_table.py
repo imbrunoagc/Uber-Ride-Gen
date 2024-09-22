@@ -25,3 +25,11 @@ class LatLongViagem(Base):
     lat = Column(Float, nullable=False)
     long = Column(Float, nullable=False)
     tipo = Column(String, nullable=False)
+
+class FeedbackViagem(Base):
+    __tablename__ = 'feedback_viagens'
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    id_viagem = Column(String, nullable=False)
+    classificacao = Column(Float, nullable=False)
+    feedback = Column(String, nullable=True)
