@@ -45,7 +45,7 @@ def gerar_feedback(id_viagem: str):
     # Seleciona feedback com base na avaliação
     if rating >= 4:
         feedback = random.choice(positive_feedbacks)
-    elif rating == 3:
+    elif rating >= 3:
         feedback = random.choice(neutral_feedbacks)
     else:
         feedback = random.choice(negative_feedbacks)
